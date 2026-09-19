@@ -48,4 +48,3 @@ Optional Challenges (implement all 3 of these):
 2. Highlight spending that goes over a set limit
 3. Dark/light mode toggle
 
-Please build the complete working app following all constraints above.
