@@ -1,0 +1,17 @@
+﻿{
+  "project": {
+    "name": "BudgetViz",
+    "description": "Aplikasi Pelacak Pengeluaran & Anggaran berbasis web",
+    "version": "1.0.0"
+  },
+  "workspace": {
+    "defaultLanguage": "id",
+    "techStack": ["HTML5", "CSS3", "Vanilla JavaScript"],
+    "entryPoint": "index.html"
+  },
+  "codeStyle": {
+    "indentSize": 2,
+    "useSingleQuotes": true,
+    "strictMode": true
+  }
+}

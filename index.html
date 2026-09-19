@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pelacak Pengeluaran & Anggaran</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- Library grafik Chart.js via CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+  <!-- ===== HEADER APLIKASI ===== -->
+  <header class="app-header">
+    <div class="header-left">
+      <span class="app-logo">💸</span>
+      <h1 class="app-title">BudgetViz</h1>
+    </div>
+    <button id="themeToggle" class="icon-btn" aria-label="Ganti tema gelap/terang" title="Ganti tema">
+      <span id="themeIcon">🌙</span>
+    </button>
+  </header>
+
+  <!-- ===== KONTEN UTAMA ===== -->
+  <main class="container">
+
+    <!-- Kartu Saldo Total -->
+    <section class="balance-card" aria-label="Saldo total">
+      <p class="balance-label">Total Pengeluaran</p>
+      <p class="balance-amount" id="totalBalance">Rp 0</p>
+    </section>
+
+    <!-- Banner Peringatan Batas Pengeluaran -->
+    <div id="limitBanner" class="limit-banner hidden" role="alert">
+      ⚠️ Pengeluaran kamu sudah melewati batas yang ditetapkan!
+    </div>
+
+    <!-- ===== FORMULIR INPUT TRANSAKSI ===== -->
+    <section class="card" aria-label="Tambah transaksi">
+      <h2 class="section-title">Tambah Transaksi</h2>
+      <form id="transactionForm" novalidate>
+        <div class="form-group">
+          <label for="itemName">Nama Item</label>
+          <input
+            type="text"
+            id="itemName"
+            placeholder="contoh: Makan Siang, Grab, Bioskop"
+            maxlength="60"
+            autocomplete="off"
+          />
+          <span class="field-error" id="nameError">Nama item tidak boleh kosong.</span>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label for="itemAmount">Jumlah (Rp)</label>
+            <input
+              type="number"
+              id="itemAmount"
+              placeholder="contoh: 25000"
+              min="1"
+              step="1"
+            />
+            <span class="field-error" id="amountError">Masukkan jumlah yang valid.</span>
+          </div>
+
+          <div class="form-group">
+            <label for="itemCategory">Kategori</label>
+            <select id="itemCategory">
+              <option value="">-- Pilih --</option>
+              <option value="Food">🍔 Makanan</option>
+              <option value="Transport">🚗 Transportasi</option>
+              <option value="Fun">🎉 Hiburan</option>
+            </select>
+            <span class="field-error" id="categoryError">Pilih salah satu kategori.</span>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-primary" id="addBtn">+ Tambah Transaksi</button>
+      </form>
+    </section>
+
+    <!-- ===== PENGATURAN BATAS PENGELUARAN ===== -->
+    <section class="card" aria-label="Batas pengeluaran">
+      <h2 class="section-title">Batas Pengeluaran</h2>
+      <div class="limit-row">
+        <input
+          type="number"
+          id="spendLimit"
+          placeholder="Masukkan batas (contoh: 500000)"
+          min="1"
+          step="1"
+          aria-label="Jumlah batas pengeluaran"
+        />
+        <button id="setLimitBtn" class="btn-secondary">Tetapkan</button>
+        <button id="clearLimitBtn" class="btn-ghost" title="Hapus batas">✕</button>
+      </div>
+      <p class="limit-hint" id="limitDisplay">Belum ada batas yang ditetapkan.</p>
+    </section>
+
+    <!-- ===== DAFTAR TRANSAKSI ===== -->
+    <section class="card" aria-label="Daftar transaksi">
+      <div class="list-header">
+        <h2 class="section-title">Transaksi</h2>
+        <div class="sort-controls">
+          <label for="sortSelect" class="sr-only">Urutkan berdasarkan</label>
+          <select id="sortSelect" aria-label="Urutkan transaksi">
+            <option value="date-desc">Terbaru</option>
+            <option value="date-asc">Terlama</option>
+            <option value="amount-desc">Jumlah ↓</option>
+            <option value="amount-asc">Jumlah ↑</option>
+            <option value="category">Kategori A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      <ul id="transactionList" class="transaction-list" aria-live="polite">
+        <!-- Item dirender oleh JavaScript -->
+      </ul>
+
+      <p id="emptyMsg" class="empty-msg">Belum ada transaksi. Tambahkan di atas!</p>
+    </section>
+
+    <!-- ===== GRAFIK PIE PENGELUARAN ===== -->
+    <section class="card chart-section" aria-label="Grafik pengeluaran">
+      <h2 class="section-title">Pengeluaran per Kategori</h2>
+      <div class="chart-wrapper">
+        <canvas id="spendingChart" role="img" aria-label="Grafik pie pengeluaran per kategori"></canvas>
+      </div>
+      <p id="chartEmptyMsg" class="empty-msg">Tambahkan transaksi untuk melihat grafik.</p>
+    </section>
+
+  </main>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="app-footer">
+    <p>BudgetViz &mdash; Dibuat dengan ❤️ &amp; Vanilla JS</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
